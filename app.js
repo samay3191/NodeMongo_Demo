@@ -4,8 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// --------------- Mongo DB Setup ---------------
+
+const mongo = require('mongodb');
+const monk = require('monk');
+const db = monk('localhost:27017/NodeMongo_Demo')
+
+// --------------- Mongo DB Setup ---------------
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -19,8 +28,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Make db accesible to router
+app.use(function(req,res,next) {
+  req.db = db;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,40 +1,33 @@
 var express = require('express');
 var router = express.Router();
 
+const userCollection = function (db) {
+    return db.get('usercollection');
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/helloworld', function(req,res) {
-  res.render('helloworld', { title: 'Hello World' });
+router.get('/api/helloworld', function(req,res) {
+  res.json({ title: 'Hello World' });
 });
 
-router.get('/userlist', function(req, res) {
-  var db = req.db;
-  var collection = db.get('usercollection');
+router.get('/api/userlist', function(req, res) {
+  var collection = userCollection(req.db);
   collection.find({},{},function(e,docs){
-      res.render('userlist', {
-          "userlist" : docs
-      });
+      res.json(docs);
   });
 });
 
-router.get('/newuser', function(req, res) {
-  res.render('newuser', { title: 'Add New User' });
-});
-
 /* POST to Add User Service */
-router.post('/adduser', function(req, res) {
-  // set internal DB variable
-  var db = req.db;
+router.post('/api/adduser', function(req, res) {
+    var collection = userCollection(req.db);
 
   // getting form values
   var userName = req.body.username;
   var userEmail = req.body.useremail;
-
-  // setting collection object
-  var collection = db.get('usercollection');
 
   // inserting new user to the db
   collection.insert({
