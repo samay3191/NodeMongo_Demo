@@ -5,4 +5,9 @@ html
     //- link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
   body.container
+    h1.btn-group-justified Node MongoDB Demo Project
+    div.btn-group
+      button.btn.btn-default(type="button",onClick='redirectTo(' + '/' + ')') Home
+      button.btn.btn-default(type="button",onClick='redirectTo(' + '/userlist' + ')') All Users
+      button.btn.btn-default(type="button",onClick='redirectTo(' + '/newuser' + ')') Add New User
     block content
