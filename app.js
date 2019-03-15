@@ -1,5 +1,7 @@
 var createError = require('http-errors');
+const bodyParser = require('body-parser');
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -33,6 +35,8 @@ app.use(function(req,res,next) {
   req.db = db;
   next();
 });
+
+app.use(cors(), bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
